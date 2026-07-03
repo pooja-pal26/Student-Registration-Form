@@ -15,10 +15,23 @@ export const createRegistration = async (req, res) => {
       agree,
     } = req.body;
 
-    const skills = req.body.skills
-      ? JSON.parse(req.body.skills)
-      : [];
+    let skills = [];
 
+    if (req.body.skills) {
+      if (Array.isArray(req.body.skills)) {
+        // Raw JSON
+        skills = req.body.skills;
+      } else if (typeof req.body.skills === "string") {
+        try {
+          // Form-data: '["React","Node"]'
+          skills = JSON.parse(req.body.skills);
+        } catch {
+          // Form-data: 'React'
+          skills = [req.body.skills];
+        } 
+      }
+    }
+    
     const photo = req.files?.photo
       ? req.files.photo[0].filename
       : "";

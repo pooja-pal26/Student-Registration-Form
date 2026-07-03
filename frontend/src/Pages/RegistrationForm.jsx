@@ -145,7 +145,6 @@ function RegistrationForm() {
                   onChange={handleChange}
                   required
                 />
-
               </div>
             </div>
 
